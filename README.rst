@@ -110,3 +110,30 @@ Everything else will still work, and instances of ``Compact`` will now
 also play nicely with the weakref_ module.
 
 .. _weakref: https://docs.python.org/3/library/weakref.html?highlight=weakref#module-weakref
+
+Developer Setup
+---------------
+
+This project uses nox_ with the uv_ backend for running tests across multiple
+Python versions.
+
+.. code-block:: bash
+
+   # Create a virtual environment
+   uv venv --python=3.13 .venv
+   source .venv/bin/activate
+
+   # Install nox with uv support
+   uv tool install 'nox[uv]'
+
+   # Run tests on all Python versions (auto-downloads missing interpreters)
+   nox --download-python=always
+
+   # Run tests on a specific version
+   nox -s tests-3.14
+
+   # List available test sessions
+   nox -l
+
+.. _nox: https://nox.thea.codes/
+.. _uv: https://docs.astral.sh/uv/

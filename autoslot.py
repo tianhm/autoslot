@@ -33,10 +33,15 @@ def assignments_to_self(method) -> set:
     for a, b in zip(i0, i1):
         accessing_self = (
             (
-                a.opname in ('LOAD_FAST', 'LOAD_DEREF')
+                a.opname in ('LOAD_FAST', 'LOAD_DEREF', 'LOAD_FAST_BORROW')
                 and a.argval == instance_var
             ) or (
+                # Python 3.13+
                 a.opname == 'LOAD_FAST_LOAD_FAST'
+                and a.argval[1] == instance_var
+            ) or (
+                # Python 3.14+
+                a.opname == 'LOAD_FAST_BORROW_LOAD_FAST_BORROW'
                 and a.argval[1] == instance_var
             )
         )
